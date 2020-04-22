@@ -1,0 +1,29 @@
+#spring.session.store-type=jdbc
+#spring.datasource.data-username=root
+#spring.datasource.data-password=123
+server:
+  port: 8081
+
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://192.168.1.100:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: abc123
+    #mysql5
+    #driver-class-name: com.mysql.jdbc.Driver
+    #mysql6
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      id-type: assign_id
