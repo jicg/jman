@@ -28,10 +28,11 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
                                         HttpServletResponse httpServletResponse,
                                         AuthenticationException e) throws
             IOException, ServletException {
+        log.error(e.getLocalizedMessage(), e);
         httpServletResponse.setContentType("application/json;charset=utf-8");
         objectMapper.writeValue(
                 httpServletResponse.getWriter(),
-                R.fail("登陆失败：" + e.getLocalizedMessage())
+                R.fail("登陆失败：用户或密码错误 " + e.getLocalizedMessage())
         );
     }
 }
