@@ -1,5 +1,6 @@
 package com.jicg.jman.config.security;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jicg.jman.orm.entity.SysUser;
 import com.jicg.jman.orm.mapper.SysUserMapper;
 import lombok.Data;
@@ -23,11 +24,14 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private String nickname;
     private boolean enabled = true;
+    @JSONField(serialize = false)
+    private SysUser user;
 
     public UserDetailsImpl(SysUser user) {
         this.id = user.getId();
         this.username = user.getEmail();
         this.password = user.getPassword();
+        this.user = user;
     }
 
     @Override

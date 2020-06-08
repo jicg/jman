@@ -1,16 +1,11 @@
-package com.jicg.jman.web.vo;
+package com.jicg.jman.bean.vo;
 
-import com.baomidou.mybatisplus.extension.api.IErrorCode;
-import com.baomidou.mybatisplus.extension.enums.ApiErrorCode;
-import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * @author jicg on 2020/4/20

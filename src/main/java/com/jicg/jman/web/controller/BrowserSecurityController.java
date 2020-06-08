@@ -1,22 +1,19 @@
 package com.jicg.jman.web.controller;
 
-import com.jicg.jman.web.vo.R;
+import com.jicg.jman.utils.Utils;
+import com.jicg.jman.bean.vo.R;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author jicg on 2020/4/20
@@ -39,26 +36,12 @@ public class BrowserSecurityController {
     public R requireAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
-        if (savedRequest != null) {
-            String target = savedRequest.getRedirectUrl();
-            String[] dt = savedRequest.getParameterValues("dt");
-            log.info("引发跳转的请求是:" + target + "  " + Arrays.toString(dt));
-            if (dt != null && dt.length > 0) {
-                if ("html".equalsIgnoreCase(dt[0])) {
-                    redirectStrategy.sendRedirect(
-                            request,
-                            response,
-                            "/login.html"
-                    );
-                }
-            }
-            if (StringUtils.endsWithIgnoreCase(target, ".html")||StringUtils.endsWithIgnoreCase(target, "/")) {
-                redirectStrategy.sendRedirect(
-                        request,
-                        response,
-                        "/login.html"
-                );
-            }
+        if (savedRequest != null && !Utils.isJsonReq(savedRequest)) {
+            redirectStrategy.sendRedirect(
+                    request,
+                    response,
+                    "/login.html"
+            );
         }
         return R.fail("请登陆");
     }

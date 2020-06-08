@@ -35,19 +35,23 @@ public interface IVerifyCodeService {
 
 
     default void check(HttpServletRequest request,
-                          HttpServletResponse response)
+                       HttpServletResponse response)
             throws ServletRequestBindingException, ValidateCodeException {
         String vaild_code = ServletRequestUtils.getStringParameter(request, getParameterName());
         HttpSession session = request.getSession();
         VerifyCodeBean verifyCodeBean =
                 (VerifyCodeBean) session
                         .getAttribute(VerifyCodeBean.VERIFY_CODE_SESSION_KEY);
+
+        if (verifyCodeBean == null) {
+//            throw new ValidateCodeException("验证码不存在");
+            return;
+        }
+
         if (StrUtil.isEmpty(vaild_code)) {
             throw new ValidateCodeException("验证码的值不能为空");
         }
-        if (verifyCodeBean == null) {
-            throw new ValidateCodeException("验证码不存在");
-        }
+
         if (verifyCodeBean.isExpried()) {
             session.removeAttribute(VerifyCodeBean.VERIFY_CODE_SESSION_KEY);
             throw new ValidateCodeException("验证码失效！！");

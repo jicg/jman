@@ -1,9 +1,8 @@
 package com.jicg.jman.config.security.verify;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jicg.jman.web.vo.R;
+import com.jicg.jman.bean.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

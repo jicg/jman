@@ -2,19 +2,15 @@ package com.jicg.jman.web.controller.api;
 
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.orm.mapper.SysMenuMapper;
-import com.jicg.jman.web.vo.MenuVo;
+import com.jicg.jman.bean.vo.MenuVo;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,7 +32,7 @@ public class MenuController {
 
     @PostMapping("/mean/new")
     @ApiOperation("新增菜单")
-    public String add( MenuVo menuVo) {
+    public String add(MenuVo menuVo) {
         SysMenu menu = new SysMenu();
         BeanUtils.copyProperties(menuVo, menu);
         sysMenuMapper.insert(menu);

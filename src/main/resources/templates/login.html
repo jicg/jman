@@ -130,7 +130,7 @@
                     <div class="layui-form-item">
                         <label class="layui-icon layui-icon-vercode"></label>
                         <input type="text" name="verify_code" lay-verify="required|captcha" placeholder="图形验证码"
-                               autocomplete="off" class="layui-input verification captcha" value="xszg">
+                               autocomplete="off" class="layui-input verification captcha" value="">
                         <div class="captcha-img">
                             <img id="captchaPic" src="/verify?v=1">
                         </div>
@@ -164,10 +164,9 @@
             });
         });
 
-        $("#captchaPic").click(function(){
-            $("#captchaPic").attr("src","/verify?t"+Math.random())
+        $("#captchaPic").on("click",function () {
+            $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
         });
-
         // 进行登录操作
         form.on('submit(login)', function (data) {
             data = data.field;
@@ -185,13 +184,10 @@
             }
             $.post("/api/login", data, function (ret) {
                 if (ret.code == 0) {
-                    // layer.msg("登陆成功 即将跳转页面。。。");
-                    // setTimeout(function () {
-                    //     window.location.href = "/index.html";
-                    // }, 1000);
                     window.location.href = "/index.html";
                 } else {
                     layer.msg(ret.msg);
+                    $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
                 }
             });
             return false;

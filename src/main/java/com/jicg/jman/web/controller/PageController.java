@@ -38,9 +38,6 @@ public class PageController {
 
     @GetMapping(value = "/page/{name}.html", produces = "text/html")
     public String index(@PathVariable("name") String name) {
-        log.info(name);
-        if (true)
-            throw new RuntimeException("sadfasdf");
         return "/page/" + name;
     }
 

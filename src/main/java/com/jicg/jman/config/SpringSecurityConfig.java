@@ -91,7 +91,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/res/**",
                 "/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs", "/webjars/**",
-                "/login.html", "/verify"
+                "/login.html", "/verify","/error"
         );
     }
 

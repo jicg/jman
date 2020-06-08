@@ -1,7 +1,7 @@
 package com.jicg.jman.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jicg.jman.web.vo.R;
+import com.jicg.jman.bean.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

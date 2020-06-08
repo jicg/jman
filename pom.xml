@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jicg.jmanager</groupId>
-    <artifactId>jmanagerdemo</artifactId>
+    <artifactId>jman</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jmanagerdemo</name>
+    <name>jman</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -64,6 +64,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.3.1</version>
+        </dependency>
+        <!--        https://xkcoding.com/2019/05/22/spring-boot-login-with-oauth.html-->
+        <dependency>
+            <groupId>com.xkcoding</groupId>
+            <artifactId>justauth-spring-boot-starter</artifactId>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
