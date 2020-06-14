@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class MenuVo {
     private String perm;
 
     @ApiModelProperty("类型(0:顶级目录,1:菜单,2:其他,)")
-    private int action_type;
+    private int actionType;
 
     @ApiModelProperty("链接")
     private String href;
@@ -48,5 +49,5 @@ public class MenuVo {
     private String remark;
 
     @ApiModelProperty("下级菜单列表")
-    private List<MenuVo> child;
+    private List<MenuVo> child = new ArrayList<>();
 }

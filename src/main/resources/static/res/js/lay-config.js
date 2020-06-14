@@ -4,14 +4,18 @@
  * description:此处放layui自定义扩展
  */
 
-window.rootPath = (function (src) {
-    src = document.scripts[document.scripts.length - 1].src;
-    return src.substring(0, src.lastIndexOf("/") + 1);
-})();
+// window.rootPath = (function (src) {
+//     console.log(src);
+//     console.log(document.scripts);
+//     src = document.scripts[document.scripts.length - 1].src;
+//     console.log(src);
+//     return src.substring(0, src.lastIndexOf("/") + 1);
+// })();
 
 layui.config({
-    base: rootPath + "lay-module/",
-    version: true
+    base:   "/res/js/lay-module/",
+    debug: true,
+    version: false
 }).extend({
     miniAdmin: "layuimini/miniAdmin", // layuimini后台扩展
     miniMenu: "layuimini/miniMenu", // layuimini菜单扩展

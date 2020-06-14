@@ -16,6 +16,8 @@ public interface ISysMenuService {
 
     List<MenuVo> queryAllMenus(SysUser user);
 
+    List<MenuVo> queryAllMenus();
+
     boolean checkPerm(SysUser user, String perm);
 
     List<SysMenu> queryChildPermsByMeanId(SysUser user, Long menuid);

@@ -41,6 +41,26 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
         } else {
             sysMenus = sysMenuMapper.queryMenusByUserId(user.getId());
         }
+        return getMenuVos(sysMenus);
+    }
+
+
+    @Override
+    public List<MenuVo> queryAllMenus() {
+        List<SysMenu> sysMenus = sysMenuMapper.lambdaQueryChain()
+                .eq(SysMenu::getActionType, 1)
+                .orderByAsc(SysMenu::getSort).list();
+        List<MenuVo> rets = new ArrayList<>();
+        sysMenus.forEach(sysMenu -> {
+            MenuVo menuVo = new MenuVo();
+            BeanUtils.copyProperties(sysMenu, menuVo);
+            rets.add(menuVo);
+        });
+        return rets;
+//        return getMenuVos(sysMenus);
+    }
+
+    private List<MenuVo> getMenuVos(List<SysMenu> sysMenus) {
         Map<Long, MenuVo> maps = new LinkedHashMap<>();
         sysMenus.forEach(sysMenu -> {
             if (sysMenu.getStatus() == 1) {

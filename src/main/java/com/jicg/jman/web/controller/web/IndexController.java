@@ -26,7 +26,6 @@ public class IndexController {
 
     @GetMapping("/init")
     public Map<String, Object> getInitData() {
-//        User user=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Map<String, Object> datas = new HashMap<>();
         datas.put("homeInfo", new HashMap<String, String>() {{

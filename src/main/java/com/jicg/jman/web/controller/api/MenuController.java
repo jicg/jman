@@ -1,13 +1,15 @@
 package com.jicg.jman.web.controller.api;
 
+import com.jicg.jman.bean.vo.R;
 import com.jicg.jman.orm.entity.SysMenu;
-import com.jicg.jman.orm.mapper.SysMenuMapper;
 import com.jicg.jman.bean.vo.MenuVo;
+import com.jicg.jman.service.impl.SysMenuService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -18,24 +20,32 @@ import java.util.List;
  */
 @ApiOperation("菜单接口")
 @RestController
+@RequestMapping("/menu")
 public class MenuController {
 
     @Autowired
-    private SysMenuMapper sysMenuMapper;
+    private SysMenuService sysMenuService;
 
 
-    @GetMapping("/mean")
+    @GetMapping("/query")
     @ApiOperation("查询菜单")
     public List<MenuVo> mean() {
         return new ArrayList<>();
     }
 
-    @PostMapping("/mean/new")
+    @PostMapping("/new")
     @ApiOperation("新增菜单")
     public String add(MenuVo menuVo) {
         SysMenu menu = new SysMenu();
         BeanUtils.copyProperties(menuVo, menu);
-        sysMenuMapper.insert(menu);
+        sysMenuService.save(menu);
         return "ok";
+    }
+
+
+    @GetMapping("/load")
+    @ApiOperation("新增菜单")
+    public R<List<MenuVo>> load() {
+        return R.ok(sysMenuService.queryAllMenus());
     }
 }
