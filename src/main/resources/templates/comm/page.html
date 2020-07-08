@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="layui_css" th:if="${#strings.equalsIgnoreCase('page',comb)}">
+    <link rel="stylesheet" th:href="@{/res/lib/layui-v2.5.5/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/res/css/public.css}" media="all">
+</head>
+<body>
+<div th:fragment="layui_script" th:if="${#strings.equalsIgnoreCase('page',comb)}">
+    <script th:src="@{/res/lib/layui-v2.5.5/layui.all.js}" charset="utf-8"></script>
+    <script th:src="@{/res/js/lay-config.js}" charset="utf-8"></script>
+    <script th:src="@{/res/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+</div>
+</body>
+</html>

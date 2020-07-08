@@ -24,8 +24,10 @@ layui.config({
     miniTongji: "layuimini/miniTongji", // layuimini 统计扩展
     step: 'step-lay/step', // 分步表单扩展
     treetable: 'treetable-lay/treetable', //table树形扩展
-    tableSelect: 'tableSelect/tableSelect', // table选择扩展
+    tableSelect: 'treeSelect/treeSelect', // table选择扩展
+    treeSelect: 'tableSelect/tableSelect', // table选择扩展
     iconPickerFa: 'iconPicker/iconPickerFa', // fa图标选择扩展
+    iconPicker: 'iconPicker/iconPicker', // 图标选择扩展
     echarts: 'echarts/echarts', // echarts图表扩展
     echartsTheme: 'echarts/echartsTheme', // echarts图表主题扩展
     wangEditor: 'wangEditor/wangEditor', // wangEditor富文本扩展

@@ -21,4 +21,6 @@ public interface ISysMenuService {
     boolean checkPerm(SysUser user, String perm);
 
     List<SysMenu> queryChildPermsByMeanId(SysUser user, Long menuid);
+
+    void deleteById(long id);
 }

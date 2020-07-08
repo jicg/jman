@@ -90,4 +90,9 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     public List<SysMenu> queryChildPermsByMeanId(SysUser user, Long menuid) {
         return sysMenuMapper.queryChildPermsByMeanId(user.getId(), menuid);
     }
+
+    @Override
+    public void deleteById(long id) {
+        sysMenuMapper.deleteById(id);
+    }
 }

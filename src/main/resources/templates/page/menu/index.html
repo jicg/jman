@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>menu</title>
+    <div th:replace="comm/page::layui_css"/>
     <style>
         .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
             height: 34px;
@@ -11,11 +12,10 @@
         }
     </style>
 </head>
-<body>
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div>
-            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+            <table id="munu-table" class="layui-table" style="margin-top: 3px;" lay-filter="munu-table"></table>
         </div>
     </div>
 </div>
@@ -24,6 +24,14 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-group" style="margin-top: 10px">
+        <button lay-event="add_btn" type="button" id="add_btn" class="layui-btn layui-btn-primary layui-btn-sm">
+            <i class="layui-icon">&#xe654;</i>
+        </button>
+    </div>
+</script>
+<div th:replace="comm/page::layui_script"/>
 <script th:inline="none">
     layui.use(['treetable'], function () {
         var $ = layui.jquery;
@@ -39,6 +47,7 @@
             treePidName: 'pid',
             elem: '#munu-table',
             url: '/menu/load',
+            toolbar: '#toolbar',
             page: false,
             cols: [[
                 {type: 'numbers'},
@@ -60,10 +69,11 @@
                         }
                     }, title: '类型'
                 },
-                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
+                {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],
             done: function () {
                 layer.closeAll('loading');
+
             }
         });
 
@@ -72,11 +82,40 @@
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'del') {
-                layer.msg('删除' + data.id);
+                $.post("/", {id: data.id}, function (data) {
+
+                });
             } else if (layEvent === 'edit') {
-                layer.msg('修改' + data.id);
+                var add_dialog = layer.open({
+                    type: 2,
+                    title: '菜单-编辑',
+                    content: '/page/menu/edit.html',
+                    area: ['80%', '90%'],
+                    maxmin: true,
+                    shadeClose: true
+                });
+                layer.full(add_dialog);
             }
         });
+        //监听工具条
+        table.on('toolbar(munu-table)', function (obj) {
+            console.log(obj);
+            var checkStatus = table.checkStatus(obj.config.id);
+            var layEvent = obj.event;
+            if (layEvent === 'add_btn') {
+                var add_dialog = layer.open({
+                    type: 2,
+                    title: '菜单-新增',
+                    content: '/page/menu/add.html',
+                    area: ['80%', '90%'],
+                    maxmin: true,
+                    shadeClose: true
+                });
+                layer.full(add_dialog);
+            }
+        });
+
+
     });
 </script>
 </body>
