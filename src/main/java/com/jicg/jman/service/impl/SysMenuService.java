@@ -2,6 +2,7 @@ package com.jicg.jman.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jicg.jman.bean.vo.MenuVo;
+import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.orm.entity.SysUser;
 import com.jicg.jman.orm.mapper.SysMenuMapper;
@@ -57,7 +58,45 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
             rets.add(menuVo);
         });
         return rets;
-//        return getMenuVos(sysMenus);
+    }
+
+
+    @Override
+    public List<TreeBeanVo> queryTreeMenus() {
+        List<SysMenu> sysMenus = sysMenuMapper.lambdaQueryChain()
+                .eq(SysMenu::getActionType, 1)
+                .orderByAsc(SysMenu::getSort).list();
+        return getToTreeVos(sysMenus);
+    }
+
+
+    private List<TreeBeanVo> getToTreeVos(List<SysMenu> sysMenus) {
+        Map<Long, TreeBeanVo> maps = new LinkedHashMap<>();
+        sysMenus.forEach(sysMenu -> {
+            if (sysMenu.getStatus() == 1) {
+                TreeBeanVo treeVo = new TreeBeanVo();
+                treeVo.setId(sysMenu.getId());
+                treeVo.setPid(sysMenu.getPid());
+                treeVo.setName(sysMenu.getTitle());
+                treeVo.setOpen(true);
+                maps.put(sysMenu.getId(), treeVo);
+            }
+        });
+        maps.forEach((k, v) -> {
+            if (v.getPid() > 0) {
+                if (maps.containsKey(v.getPid())) {
+                    maps.get(v.getPid()).getChildren().add(v);
+                }
+            }
+        });
+        maps.forEach((k, v) -> {
+            if (v.getChildren() != null && v.getChildren().size() <= 0) {
+                v.setChildren(null);
+            }
+        });
+        return maps.values().stream()
+                .filter(x -> x.getPid() <= 0)
+                .collect(Collectors.toList());
     }
 
     private List<MenuVo> getMenuVos(List<SysMenu> sysMenus) {
@@ -95,4 +134,5 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     public void deleteById(long id) {
         sysMenuMapper.deleteById(id);
     }
+
 }

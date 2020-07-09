@@ -1,6 +1,7 @@
 package com.jicg.jman.web.controller.api;
 
 import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.bean.vo.MenuVo;
 import com.jicg.jman.service.impl.SysMenuService;
@@ -49,5 +50,12 @@ public class MenuController {
     @ApiOperation("新增菜单")
     public R<List<MenuVo>> load() {
         return R.ok(sysMenuService.queryAllMenus());
+    }
+
+
+    @GetMapping("/getTrees")
+    @ApiOperation("新增菜单")
+    public List<TreeBeanVo>  getTrees() {
+        return sysMenuService.queryTreeMenus();
     }
 }

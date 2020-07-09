@@ -14,7 +14,7 @@
         <!--        <blockquote class="layui-elem-quote layui-text">-->
         <!--            菜单新增-->
         <!--        </blockquote>-->
-        <form class="layui-form" action="">
+        <form class="layui-form" lay-filter="add" action="">
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-block">
@@ -86,14 +86,14 @@
 <div th:replace="comm/page::layui_script"/>
 <!--http://www.jackhhy.cn/-->
 <script>
-    layui.use(['iconPickerFa', 'iconPicker', 'form', 'layedit', 'laydate','treeSelect'], function () {
+    layui.use(['iconPicker', 'form', 'layedit', 'laydate', 'treeSelect'], function () {
         var form = layui.form
             , iconPicker = layui.iconPicker
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate
             , treeSelect = layui.treeSelect;
-
+        var icon = "", pid = 0;
 
         iconPicker.render({
             // 选择器，推荐使用input
@@ -108,7 +108,7 @@
             limit: 12,
             // 点击回调
             click: function (data) {
-                console.log(data);
+                icon = data.icon;
             },
             // 渲染成功后的回调
             success: function (d) {
@@ -120,7 +120,7 @@
             // 选择器
             elem: '#pid',
             // 数据
-            data: 'data/data3.json',
+            data: '/menu/getTrees',
             // 异步加载方式：get/post，默认get
             type: 'get',
             // 占位符
@@ -136,12 +136,14 @@
                 }
             },
             // 点击回调
-            click: function(d){
+            click: function (d) {
                 console.log(d);
+                pid = d.current.id;
             },
             // 加载完成后的回调函数
             success: function (d) {
                 console.log(d);
+                treeSelect.checkNode('pid', pid);
 //                选中节点，根据id筛选
 //                treeSelect.checkNode('tree', 3);
 //                获取zTree对象，可以调用zTree方法
@@ -150,6 +152,10 @@
 //                刷新树结构
 //                treeSelect.refresh('tree');
             }
+        });
+
+        form.on('submit(add)', function (data) {
+            console.log(data);
         });
     });
 </script>
