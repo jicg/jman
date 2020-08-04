@@ -12,6 +12,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <form class="layui-form" lay-filter="edit" action>
+            <input type="hidden" th:value="${menu?.id}">
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-block">
@@ -142,6 +143,9 @@
 
         form.on('submit(edit)', function (data) {
             console.log(data);
+            $("/menu/add", data, function (e) {
+
+            });
             return false;
         });
     });

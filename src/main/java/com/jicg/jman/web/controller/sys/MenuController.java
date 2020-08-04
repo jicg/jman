@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,32 +29,21 @@ public class MenuController {
     private SysMenuService sysMenuService;
 
     @GetMapping(value = {"/index.html"}, produces = "text/html")
-    public ModelAndView menuIndex(
-            @RequestParam(value = "comb", defaultValue = "page") String comb) {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("comb", comb);
-        mv.setViewName("page/sys/menu/index.html");
-        return mv;
+    public ModelAndView menuIndex() {
+        return new ModelAndView("page/sys/menu/index.html");
     }
 
     @GetMapping(value = {"/edit.html"}, produces = "text/html")
-    public ModelAndView menuEdit(@RequestParam("id") long id,
-                                 @RequestParam(value = "comb", defaultValue = "page") String comb) {
+    public ModelAndView menuEdit(@RequestParam("id") long id) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("comb", comb);
-        log.error("-----------------------------------------");
         mv.addObject("menu", sysMenuService.queryMenuById(id));
         mv.setViewName("page/sys/menu/edit.html");
         return mv;
     }
 
     @GetMapping(value = {"/add.html"}, produces = "text/html")
-    public ModelAndView menuAdd(
-            @RequestParam(value = "comb", defaultValue = "page") String comb) {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("comb", comb);
-        mv.setViewName("page/sys/menu/add.html");
-        return mv;
+    public ModelAndView menuAdd() {
+        return new ModelAndView("page/sys/menu/add.html");
     }
 
     @GetMapping("/query")

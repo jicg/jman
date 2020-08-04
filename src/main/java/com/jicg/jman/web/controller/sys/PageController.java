@@ -41,10 +41,8 @@ public class PageController {
 
     @GetMapping(value = {"/page/{mod}/{name}.html", "/page/{name}.html"}, produces = "text/html")
     public ModelAndView index(@PathVariable("name") String name,
-                              @PathVariable(value = "mod", required = false) String mod,
-                              @RequestParam(value = "comb", defaultValue = "page") String comb) {
+                              @PathVariable(value = "mod", required = false) String mod) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("comb", comb);
         String modd = "";
         if (!StrUtil.isEmpty(mod)) modd = StrUtil.appendIfMissing(mod, "/");
         mv.setViewName("/page/" + modd + name);
