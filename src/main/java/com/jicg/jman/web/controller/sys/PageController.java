@@ -1,4 +1,4 @@
-package com.jicg.jman.web.controller;
+package com.jicg.jman.web.controller.sys;
 
 import cn.hutool.core.util.StrUtil;
 import com.jicg.jman.config.security.verify.IVerifyCodeService;
@@ -38,9 +38,10 @@ public class PageController {
         return "login";
     }
 
+
     @GetMapping(value = {"/page/{mod}/{name}.html", "/page/{name}.html"}, produces = "text/html")
     public ModelAndView index(@PathVariable("name") String name,
-                              @PathVariable(value = "mod",required = false) String mod,
+                              @PathVariable(value = "mod", required = false) String mod,
                               @RequestParam(value = "comb", defaultValue = "page") String comb) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("comb", comb);

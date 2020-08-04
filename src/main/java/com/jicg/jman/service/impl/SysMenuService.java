@@ -69,6 +69,12 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
         return getToTreeVos(sysMenus);
     }
 
+    @Override
+    public SysMenu queryMenuById(long id) {
+        SysMenu sysMenu = sysMenuMapper.findOne(id);
+        return sysMenu;
+    }
+
 
     private List<TreeBeanVo> getToTreeVos(List<SysMenu> sysMenus) {
         Map<Long, TreeBeanVo> maps = new LinkedHashMap<>();

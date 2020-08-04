@@ -1,4 +1,4 @@
-package com.jicg.jman.web.controller.web;
+package com.jicg.jman.web.controller;
 
 import com.jicg.jman.config.security.UserDetailsImpl;
 import com.jicg.jman.orm.entity.SysUser;

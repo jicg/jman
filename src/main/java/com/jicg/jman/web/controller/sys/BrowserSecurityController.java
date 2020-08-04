@@ -1,4 +1,4 @@
-package com.jicg.jman.web.controller;
+package com.jicg.jman.web.controller.sys;
 
 import com.jicg.jman.utils.Utils;
 import com.jicg.jman.bean.vo.R;

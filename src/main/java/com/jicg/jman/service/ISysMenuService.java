@@ -25,4 +25,6 @@ public interface ISysMenuService {
     void deleteById(long id);
 
     List<TreeBeanVo> queryTreeMenus();
+
+    SysMenu queryMenuById(long id);
 }
