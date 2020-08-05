@@ -14,9 +14,7 @@
 </head>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <div>
-            <table id="munu-table" class="layui-table" style="margin-top: 3px;" lay-filter="munu-table"></table>
-        </div>
+        <table id="munu-table" lay-filter="munu-table"></table>
     </div>
 </div>
 <!-- 操作列 -->
@@ -31,28 +29,34 @@
         </button>
     </div>
 </script>
+
 <div th:replace="comm/page::layui_script"/>
 <script th:inline="none">
-    layui.use(['treetable'], function () {
+    layui.use(['treeTable'], function () {
         var $ = layui.jquery;
         var table = layui.table;
-        var treetable = layui.treetable;
+        var treeTable = layui.treeTable;
 
         // 渲染表格
         layer.load(2);
-        treetable.render({
-            treeColIndex: 1,
-            treeSpid: 0,
-            treeIdName: 'id',
-            treePidName: 'pid',
+        var menu_table = treeTable.render({
             elem: '#munu-table',
             url: '/menu/load',
+            height: 'full-200',
             toolbar: '#toolbar',
-            page: false,
+            tree: {
+                iconIndex: 1,
+                isPidData: true,
+                idName: 'id',
+                pidName: 'pid'
+            },
             cols: [[
-                {type: 'numbers'},
-                {field: 'title', minWidth: 200, title: '菜单名称'},
-                {field: 'icon', minWidth: 80, title: '图标'},
+                {type: 'numbers', minWidth: 30,},
+                {field: 'title', minWidth: 120, title: '菜单名称'},
+                {
+                    field: 'icon', title: '图标', align: 'center', minWidth: 40,
+                    templet: '<p><i class="layui-icon {{d.icon}}"></i></p>'
+                },
                 {field: 'perm', title: '权限标识'},
                 {field: 'href', title: '菜单url'},
                 {field: 'sort', width: 80, align: 'center', title: '排序号'},
@@ -74,22 +78,38 @@
             done: function () {
                 layer.closeAll('loading');
 
-            }
+            },
+            style: "margin-top:0;"
         });
-
+        window.refreshView = function () {
+            menu_table.refresh();
+        };
         //监听工具条
-        table.on('tool(munu-table)', function (obj) {
+        treeTable.on('tool(munu-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'del') {
-                $.post("/", {id: data.id}, function (data) {
-
+                var confirm = layer.confirm('确定要删除？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.close(confirm);
+                    $.post("/menu/del", {id: data.id}, function (e) {
+                        if (e.code === 0) {
+                            layer.msg(e.msg);
+                            obj.del();
+                        } else {
+                            layer.msg(e.msg);
+                        }
+                    });
+                }, function () {
+                    layer.close(confirm);
                 });
+
             } else if (layEvent === 'edit') {
                 var add_dialog = layer.open({
                     type: 2,
                     title: '菜单-编辑',
-                    content: '/page/menu/edit.html',
+                    content: '/menu/edit.html?id=' + data.id,
                     area: ['80%', '90%'],
                     maxmin: true,
                     shadeClose: true
@@ -98,15 +118,14 @@
             }
         });
         //监听工具条
-        table.on('toolbar(munu-table)', function (obj) {
+        treeTable.on('toolbar(munu-table)', function (obj) {
             console.log(obj);
-            var checkStatus = table.checkStatus(obj.config.id);
             var layEvent = obj.event;
             if (layEvent === 'add_btn') {
                 var add_dialog = layer.open({
                     type: 2,
                     title: '菜单-新增',
-                    content: '/page/menu/add.html',
+                    content: '/menu/add.html',
                     area: ['80%', '90%'],
                     maxmin: true,
                     shadeClose: true
