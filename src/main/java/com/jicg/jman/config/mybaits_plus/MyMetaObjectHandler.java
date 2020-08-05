@@ -1,6 +1,7 @@
 package com.jicg.jman.config.mybaits_plus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.jicg.jman.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "createAt", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "updateAt", LocalDateTime.class, LocalDateTime.now());
         if (metaObject.hasSetter("createrId")) {
-            log.info("sessionId " + session.getId());
-            // todo 新增 更新createrId
+            log.info("insertFill createrId sessionId " + session.getId());
+            metaObject.setValue("createrId", Utils.getUser().getId());
         }
         if (metaObject.hasSetter("updaterId")) {
-            log.info("sessionId " + session.getId());
-            // todo 修改 更新updaterId
+            log.info("insertFill updaterId sessionId " + session.getId());
+            metaObject.setValue("updaterId", Utils.getUser().getId());
         }
 
     }
@@ -35,8 +36,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         this.strictUpdateFill(metaObject, "updateAt", LocalDateTime.class, LocalDateTime.now());
         if (metaObject.hasSetter("updaterId")) {
-            log.info("sessionId " + session.getId());
-            // todo 修改 更新updaterId
+            log.info("updateFill updaterId sessionId " + session.getId());
+            metaObject.setValue("updaterId", Utils.getUser().getId());
         }
     }
 }

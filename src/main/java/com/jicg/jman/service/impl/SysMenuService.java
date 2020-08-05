@@ -23,21 +23,21 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     @Autowired
     private SysMenuMapper sysMenuMapper;
 
-    @Override
-    public List<SysMenu> queryMenusByPid(Long pid) {
-        return sysMenuMapper.lambdaQueryChain()
-                .eq(SysMenu::getActionType, 1)
-                .eq(SysMenu::getPid, pid)
-                .eq(SysMenu::getStatus, 1)
-                .orderByAsc(SysMenu::getSort).list();
-    }
+//    @Override
+//    public List<SysMenu> queryMenusByPid(Long pid) {
+//        return sysMenuMapper.lambdaQueryChain()
+//                .in(SysMenu::getActionType, 1,0)
+//                .eq(SysMenu::getPid, pid)
+//                .eq(SysMenu::getStatus, 1)
+//                .orderByAsc(SysMenu::getSort).list();
+//    }
 
     @Override
     public List<MenuVo> queryAllMenus(SysUser user) {
         List<SysMenu> sysMenus = new ArrayList<>();
         if ("root".equals(user.getUsername())) {
             sysMenus = sysMenuMapper.lambdaQueryChain()
-                    .eq(SysMenu::getActionType, 1)
+                    .in(SysMenu::getActionType, 1,0)
                     .orderByAsc(SysMenu::getSort).list();
         } else {
             sysMenus = sysMenuMapper.queryMenusByUserId(user.getId());
@@ -49,7 +49,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<MenuVo> queryAllMenus() {
         List<SysMenu> sysMenus = sysMenuMapper.lambdaQueryChain()
-                .eq(SysMenu::getActionType, 1)
+//                .in(SysMenu::getActionType, 1,0)
                 .orderByAsc(SysMenu::getSort).list();
         List<MenuVo> rets = new ArrayList<>();
         sysMenus.forEach(sysMenu -> {
@@ -64,7 +64,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<TreeBeanVo> queryTreeMenus() {
         List<SysMenu> sysMenus = sysMenuMapper.lambdaQueryChain()
-                .eq(SysMenu::getActionType, 1)
+                .in(SysMenu::getActionType, 1,0)
                 .orderByAsc(SysMenu::getSort).list();
         return getToTreeVos(sysMenus);
     }

@@ -36,7 +36,7 @@ public class R<T> implements Serializable {
     private T data;
 
 
-    public static <K> R ok(K data) {
+    public static <K> R<K> ok(K data) {
         return new R<K>(0, "ok", data);
     }
 

@@ -50,4 +50,6 @@ public class MenuVo {
 
     @ApiModelProperty("下级菜单列表")
     private List<MenuVo> child = new ArrayList<>();
+
+    private boolean open = true;
 }

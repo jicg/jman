@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,28 +53,40 @@ public class MenuController {
 
     @PostMapping("/new")
     @ApiOperation("新增菜单")
-    public String add(MenuVo menuVo) {
+    public R<String> add(MenuVo menuVo) {
         SysMenu menu = new SysMenu();
         BeanUtils.copyProperties(menuVo, menu);
         sysMenuService.save(menu);
-        return "ok";
+        return R.ok("操作成功");
     }
 
+    @PostMapping("/edit")
+    @ApiOperation("修改菜单")
+    public R<String> edit(MenuVo menuVo) {
+        SysMenu menu = new SysMenu();
+        BeanUtils.copyProperties(menuVo, menu);
+        sysMenuService.updateById(menu);
+        return R.ok("操作成功");
+    }
 
-    public String del(@RequestParam("id") int id) {
+    @PostMapping("/del")
+    @ApiOperation("删除菜单")
+    public R<String> del(@RequestParam("id") int id) {
         sysMenuService.deleteById(id);
-        return "ok";
+        return R.ok("操作成功");
     }
 
     @GetMapping("/load")
-    @ApiOperation("新增菜单")
+    @ApiOperation("加载菜单")
+    // 菜单管理，显示菜单数据，就先不考虑分页
     public R<List<MenuVo>> load() {
         return R.ok(sysMenuService.queryAllMenus());
     }
 
 
     @GetMapping("/getTrees")
-    @ApiOperation("新增菜单")
+    @ApiOperation("加载菜单")
+    //新增和修改页面 选择菜单
     public List<TreeBeanVo> getTrees() {
         return sysMenuService.queryTreeMenus();
     }

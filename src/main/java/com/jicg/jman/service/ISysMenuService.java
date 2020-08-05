@@ -11,7 +11,7 @@ import java.util.List;
  * @author jicg on 2020/4/17
  */
 public interface ISysMenuService {
-    List<SysMenu> queryMenusByPid(Long pid);
+//    List<SysMenu> queryMenusByPid(Long pid);
 
     List<MenuVo> queryAllMenus(SysUser user);
 

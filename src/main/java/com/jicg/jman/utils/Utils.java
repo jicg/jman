@@ -1,7 +1,11 @@
 package com.jicg.jman.utils;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.jicg.jman.config.security.UserDetailsImpl;
+import com.jicg.jman.orm.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +27,10 @@ public class Utils {
                         || (acceptHeader != null && acceptHeader.contains("application/json"))
                         || "XMLHttpRequest".equalsIgnoreCase(xRequestedWith)
         );
+    }
+
+    public static SysUser getUser(){
+       return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
     public static boolean isJsonReq(SavedRequest req) {

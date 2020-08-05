@@ -11,10 +11,8 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <!--        <blockquote class="layui-elem-quote layui-text">-->
-        <!--            菜单新增-->
-        <!--        </blockquote>-->
-        <form class="layui-form" lay-filter="add" action="">
+        <form class="layui-form"  action="">
+            <input name="status" type="hidden" th:value="1">
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-block">
@@ -75,8 +73,7 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
                 </div>
             </div>
         </form>
@@ -86,6 +83,7 @@
 <div th:replace="comm/page::layui_script"/>
 <!--http://www.jackhhy.cn/-->
 <script>
+    var index = parent.layer.getFrameIndex(window.name);
     layui.use(['iconPicker', 'form', 'layedit', 'laydate', 'treeSelect'], function () {
         var form = layui.form
             , iconPicker = layui.iconPicker
@@ -144,18 +142,23 @@
             success: function (d) {
                 console.log(d);
                 treeSelect.checkNode('pid', pid);
-//                选中节点，根据id筛选
-//                treeSelect.checkNode('tree', 3);
-//                获取zTree对象，可以调用zTree方法
-//                var treeObj = treeSelect.zTree('tree');
-//                console.log(treeObj);
-//                刷新树结构
-//                treeSelect.refresh('tree');
             }
         });
 
-        form.on('submit(add)', function (data) {
-            console.log(data);
+        form.on('submit(add)', function (ret) {
+            var data = ret.field;
+            data.pid = pid;
+            data.icon = data.icon ? ("layui-icon " + data.icon) : "";
+            $.post("/menu/new", data, function (e) {
+                if (e.code === 0) {
+                    layer.msg(e.data);
+                    index && parent && parent.layer && parent.layer.close(index);
+                    parent && parent.refreshView && parent.refreshView();
+
+                } else {
+                    layer.msg(e.data);
+                }
+            });
             return false;
         });
     });

@@ -11,8 +11,9 @@
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <form class="layui-form" lay-filter="edit" action>
-            <input type="hidden" th:value="${menu?.id}">
+        <form class="layui-form" action="">
+            <input name="id" type="hidden" th:value="${menu?.id}">
+            <input name="status" type="hidden" th:value="1">
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-block">
@@ -22,11 +23,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="required"
+                    <input type="text" name="title" required lay-verify="required"
                            lay-reqtext="名称是必填项，岂能为空？" autocomplete="off"
                            placeholder="请输入名称" class="layui-input"
-                           th:value="${menu?.title}"
-                    >
+                           th:value="${menu?.title}">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -37,7 +37,6 @@
                            th:value="${menu?.href}">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label">权限</label>
                 <div class="layui-input-block">
@@ -46,16 +45,12 @@
                            th:value="${menu?.perm}">
                 </div>
             </div>
-
-
             <div class="layui-form-item">
                 <label for="pid" class="layui-form-label">上级</label>
                 <div class="layui-input-block">
-                    <input type="text" id="pid" lay-filter="pid" class="layui-input">
+                    <input type="text" id="pid" name="pid" lay-filter="pid" class="layui-input">
                 </div>
             </div>
-
-
             <div class="layui-form-item">
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-block">
@@ -65,7 +60,6 @@
                     <input type="radio" name="actionType" value="2" title="按钮" th:attr="checked=${menu.actionType==2}">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block">
@@ -74,11 +68,9 @@
                            th:value="${menu?.sort}">
                 </div>
             </div>
-
-
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit>确定</button>
+                    <button class="layui-btn" lay-filter="edit" lay-submit>确定</button>
                 </div>
             </div>
         </form>
@@ -87,6 +79,7 @@
 
 <div th:replace="comm/page::layui_script"/>
 <script>
+    var index = parent.layer.getFrameIndex(window.name);
     var pid = [[${menu.pid}]];
     var icon = "[[${menu.icon}]]";
     layui.use(['iconPicker', 'form', 'layedit', 'laydate', 'treeSelect'], function () {
@@ -141,10 +134,20 @@
             }
         });
 
-        form.on('submit(edit)', function (data) {
-            console.log(data);
-            $("/menu/add", data, function (e) {
+        form.on('submit(edit)', function (ret) {
+            var data = ret.field;
+            data.pid = pid;
+            data.icon = data.icon ? ("layui-icon " + data.icon) : icon;
+            $.post("/menu/edit", data, function (e) {
+                if (e.code === 0) {
+                    layer.msg(e.msg);
+                    // parent.layer.msg('您将标记 [ ' +val + ' ] 成功传送给了父窗口');
+                    index && parent && parent.layer && parent.layer.close(index);
+                    parent && parent.refreshView && parent.refreshView();
 
+                } else {
+                    layer.msg(e.msg);
+                }
             });
             return false;
         });
