@@ -1,8 +1,12 @@
 package com.jicg.jman.web.controller;
 
+import com.jicg.jman.bean.vo.MenuVo;
+import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.config.security.UserDetailsImpl;
 import com.jicg.jman.orm.entity.SysUser;
 import com.jicg.jman.service.ISysMenuService;
+import com.jicg.jman.utils.CacheUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/web")
+@Slf4j
 public class IndexController {
     @Autowired
     ISysMenuService sysMenuService;
@@ -36,7 +42,13 @@ public class IndexController {
             put("title", "jman");
             put("image", "https://portrait.gitee.com/uploads/avatars/user/149/448289_jicg_1578924211.png!avatar100");
         }});
-        datas.put("menuInfo", sysMenuService.queryAllMenus(user.getUser()));
+
+        List<MenuVo> menuInfo = CacheUtils.get(CacheUtils.MENU_DATA);
+        if (menuInfo == null) {
+            menuInfo = sysMenuService.queryAllMenus(user.getUser());
+            CacheUtils.put(CacheUtils.MENU_DATA, menuInfo);
+        }
+        datas.put("menuInfo", menuInfo);
         return datas;
     }
 }

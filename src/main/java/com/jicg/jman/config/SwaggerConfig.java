@@ -37,7 +37,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 //.apis(RequestHandlerSelectors.basePackage("com.jicg.jman.web.controller.api"))
-                .apis(RequestHandlerSelectors.withClassAnnotation(ApiOperation.class))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build().apiInfo(apinfo());
 //                .globalOperationParameters(globalParams);

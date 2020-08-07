@@ -5,12 +5,14 @@ import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.bean.vo.MenuVo;
 import com.jicg.jman.service.impl.SysMenuService;
+import com.jicg.jman.utils.CacheUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;

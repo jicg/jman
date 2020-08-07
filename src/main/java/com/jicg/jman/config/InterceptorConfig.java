@@ -1,11 +1,9 @@
 package com.jicg.jman.config;
 
-import com.jicg.jman.config.interceptors.CombInterceptor;
+import com.jicg.jman.config.interceptors.ResultInterceptor;
 import com.jicg.jman.config.interceptors.LogInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
-
-import java.util.List;
 
 /**
  * @author jicg on 2020/8/4
@@ -15,7 +13,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor());
-        registry.addInterceptor(new CombInterceptor())
+        registry.addInterceptor(new ResultInterceptor())
                 .addPathPatterns("/**/*.html");
     }
     @Override

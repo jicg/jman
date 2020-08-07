@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author jicg on 2020/4/14
  */
-@ApiModel("菜单")
+@ApiModel(description = "菜单")
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuVo {
