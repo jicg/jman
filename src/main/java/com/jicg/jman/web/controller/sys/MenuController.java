@@ -5,14 +5,12 @@ import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.bean.vo.MenuVo;
 import com.jicg.jman.service.impl.SysMenuService;
-import com.jicg.jman.utils.CacheUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +18,10 @@ import java.util.List;
 /**
  * @author jicg on 2020/3/9
  */
+@Slf4j
 @ApiOperation("菜单接口")
 @RestController
 @RequestMapping("/menu")
-@Slf4j
 public class MenuController {
 
     @Autowired
@@ -82,7 +80,7 @@ public class MenuController {
     @ApiOperation("加载菜单")
     // 菜单管理，显示菜单数据，就先不考虑分页
     public R<List<MenuVo>> load() {
-        return R.ok(sysMenuService.queryAllMenus());
+        return R.ok("操作成功", sysMenuService.queryAllMenus());
     }
 
 

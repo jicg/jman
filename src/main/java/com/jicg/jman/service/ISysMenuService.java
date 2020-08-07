@@ -4,6 +4,7 @@ import com.jicg.jman.bean.vo.MenuVo;
 import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.orm.entity.SysUser;
+import org.springframework.cache.annotation.CacheEvict;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface ISysMenuService {
 //    List<SysMenu> queryMenusByPid(Long pid);
 
     List<MenuVo> queryAllMenus(SysUser user);
+
+    void clearCache(SysUser user);
 
     List<MenuVo> queryAllMenus();
 

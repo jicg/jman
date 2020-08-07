@@ -3,6 +3,7 @@ package com.jicg.jman.web.exception;
 import com.jicg.jman.utils.Utils;
 import com.jicg.jman.bean.vo.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author jicg on 2020/4/16
  */
 @Slf4j
-@RestControllerAdvice
+@ControllerAdvice
 public class GolbalErrorHandler {
     @ExceptionHandler(value = Throwable.class)
     @ResponseBody
@@ -23,7 +24,14 @@ public class GolbalErrorHandler {
 
     }
 
+//    @ExceptionHandler(value = Throwable.class)
+//    public Object handleException2(HttpServletRequest req, Exception e) throws Exception {
+//        return getReturnData(req, e);
+//
+//    }
+
     private Object getReturnData(HttpServletRequest req, Throwable e) {
+        log.info("---------------------------");
         if (Utils.isJsonReq(req)) {
             return R.fail(e.getLocalizedMessage());
         }

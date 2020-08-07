@@ -2,8 +2,12 @@ package com.jicg.jman.config;
 
 import com.jicg.jman.config.interceptors.ResultInterceptor;
 import com.jicg.jman.config.interceptors.LogInterceptor;
+import com.jicg.jman.config.interceptors.args.UserMethodArgumentResolver;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.List;
 
 /**
  * @author jicg on 2020/8/4
@@ -16,6 +20,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new ResultInterceptor())
                 .addPathPatterns("/**/*.html");
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
@@ -23,6 +28,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .setCachePeriod(31556926);
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new UserMethodArgumentResolver());
+    }
 //    @Autowired
 //    private StringHttpMessageConverter stringHttpMessageConverter;
 //    @Autowired

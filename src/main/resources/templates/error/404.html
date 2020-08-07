@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="/comm/slayout::common_layout(~{::title},~{::section},~{},~{::style},~{::script})">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>404</title>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <div th:replace="comm/page::layui_css"/>
     <style>
         .error .clip .shadow {
             height: 180px;
@@ -214,6 +218,7 @@
         </div>
     </div>
 </section>
+<div th:replace="comm/page::layui_script"/>
 <script>
     function randomNum() {
         return Math.floor(Math.random() * 9) + 1;

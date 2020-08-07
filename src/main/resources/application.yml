@@ -3,10 +3,18 @@
 #spring.datasource.data-password=123
 server:
   port: 8081
+#  error:
+#    whitelabel:
+#      enabled: false
 
 spring:
   thymeleaf:
     cache: false
+#  mvc:
+#    throw-exception-if-no-handler-found: true
+#  resources:
+#    add-mappings: false
+
   datasource:
     url: jdbc:mysql://192.168.2.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
@@ -28,6 +36,8 @@ mybatis-plus:
     db-config:
       id-type: assign_id
 
+
 app:
-  db:
-    prex: jman
+  title: 后台
+  indexPage: https://github.com/jicg/jman
+  icon: https://portrait.gitee.com/uploads/avatars/user/149/448289_jicg_1578924211.png!avatar100

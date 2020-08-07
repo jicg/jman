@@ -9,6 +9,8 @@ import com.jicg.jman.orm.mapper.SysMenuMapper;
 import com.jicg.jman.service.ISysMenuService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,17 +34,22 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
 //                .orderByAsc(SysMenu::getSort).list();
 //    }
 
+    @Cacheable(cacheNames = {"sys_menu"}, key = "#user.id")
     @Override
     public List<MenuVo> queryAllMenus(SysUser user) {
         List<SysMenu> sysMenus = new ArrayList<>();
         if ("root".equals(user.getUsername())) {
             sysMenus = sysMenuMapper.lambdaQueryChain()
-                    .in(SysMenu::getActionType, 1,0)
+                    .in(SysMenu::getActionType, 1, 0)
                     .orderByAsc(SysMenu::getSort).list();
         } else {
             sysMenus = sysMenuMapper.queryMenusByUserId(user.getId());
         }
         return getMenuVos(sysMenus);
+    }
+
+    @CacheEvict(cacheNames = {"sys_menu"}, key = "#user.id")
+    public void clearCache(SysUser user) {
     }
 
 
@@ -64,7 +71,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<TreeBeanVo> queryTreeMenus() {
         List<SysMenu> sysMenus = sysMenuMapper.lambdaQueryChain()
-                .in(SysMenu::getActionType, 1,0)
+                .in(SysMenu::getActionType, 1, 0)
                 .orderByAsc(SysMenu::getSort).list();
         return getToTreeVos(sysMenus);
     }

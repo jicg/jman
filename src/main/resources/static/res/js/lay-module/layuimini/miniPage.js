@@ -123,8 +123,10 @@ layui.define(["element", "jquery"], function (exports) {
                     element.init();
                 },
                 error: function (xhr, textstatus, thrown) {
-                    console.log(xhr);
-                    $(container).text('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
+                    //console.log(xhr);
+                    //layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
+                    $(container).html(xhr.responseText);
+                    // element.init();
                     //return layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
                 }
             });
