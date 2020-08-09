@@ -151,12 +151,12 @@
             data.icon = data.icon ? ("layui-icon " + data.icon) : "";
             $.post("/menu/new", data, function (e) {
                 if (e.code === 0) {
-                    layer.msg(e.data);
+                    layer.msg(e.msg);
                     index && parent && parent.layer && parent.layer.close(index);
                     parent && parent.refreshView && parent.refreshView();
 
                 } else {
-                    layer.msg(e.data);
+                    layer.msg(e.msg);
                 }
             });
             return false;
