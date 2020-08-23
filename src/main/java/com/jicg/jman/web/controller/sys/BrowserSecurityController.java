@@ -1,7 +1,7 @@
 package com.jicg.jman.web.controller.sys;
 
 import com.jicg.jman.utils.Utils;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -33,7 +33,7 @@ public class BrowserSecurityController {
      * @throws IOException
      */
     @RequestMapping("/api/login_p")
-    public R requireAuthentication(HttpServletRequest request, HttpServletResponse response)
+    public Resp requireAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null && !Utils.isJsonReq(savedRequest)) {
@@ -43,6 +43,6 @@ public class BrowserSecurityController {
                     "/login.html"
             );
         }
-        return R.fail("请登陆");
+        return Resp.fail("请登陆");
     }
 }

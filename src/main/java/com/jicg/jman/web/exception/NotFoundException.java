@@ -1,6 +1,6 @@
 package com.jicg.jman.web.exception;
 
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.utils.Utils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class NotFoundException implements ErrorController {
     @ResponseBody
     public Object error(HttpServletRequest req) {
         if (Utils.isJsonReq(req)) {
-            return R.fail("404，资源不存在！");
+            return Resp.fail("404，资源不存在！");
         }
         return new ModelAndView("error/404");
     }

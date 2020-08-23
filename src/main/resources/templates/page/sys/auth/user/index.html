@@ -14,7 +14,7 @@
 </head>
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <table id="table" lay-filter="table"></table>
+        <table id="user-table" lay-filter="user-table-filter"></table>
     </div>
 </div>
 <!-- 操作列 -->
@@ -37,13 +37,18 @@
         var table = layui.table;
 
         // 渲染表格
-        layer.load(2);
-        var table = table.render({
-            elem: '#table',
-            url: '/role/list',
+        // layer.load(2);
+        var user_table = table.render({
+            elem: '#user-table',
+            url: '/menu/load',
             height: 'full-200',
-            page: true,//开启分页
             toolbar: '#toolbar',
+            tree: {
+                iconIndex: 1,
+                isPidData: true,
+                idName: 'id',
+                pidName: 'pid'
+            },
             cols: [[
                 {type: 'numbers', minWidth: 30,},
                 {field: 'title', minWidth: 120, title: '菜单名称'},
@@ -71,16 +76,15 @@
             ]],
             done: function () {
                 layer.closeAll('loading');
+
             },
-            skin: 'line' //行边框风格
-            ,even: true //开启隔行背景
-            ,size: 'sm' //小尺寸的表格
+            style: "margin-top:0;"
         });
         window.refreshView = function () {
-            table.refresh();
+            menu_table.refresh();
         };
         //监听工具条
-        table.on('tool(table)', function (obj) {
+        treeTable.on('tool(munu-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'del') {
@@ -113,7 +117,7 @@
             }
         });
         //监听工具条
-        table.on('toolbar(table)', function (obj) {
+        treeTable.on('toolbar(munu-table)', function (obj) {
             console.log(obj);
             var layEvent = obj.event;
             if (layEvent === 'add_btn') {
@@ -128,6 +132,8 @@
                 layer.full(add_dialog);
             }
         });
+
+
     });
 </script>
 </body>

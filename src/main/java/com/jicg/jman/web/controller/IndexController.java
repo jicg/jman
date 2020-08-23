@@ -1,6 +1,6 @@
 package com.jicg.jman.web.controller;
 
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.config.AppConfig;
 import com.jicg.jman.config.interceptors.annos.ParamUser;
 import com.jicg.jman.orm.entity.SysUser;
@@ -46,8 +46,8 @@ public class IndexController {
     }
 
     @GetMapping("/clearCache")
-    public R clearCache(@ParamUser SysUser user) {
+    public Resp clearCache(@ParamUser SysUser user) {
         sysMenuService.clearCache(user);
-        return R.ok("操作成功");
+        return Resp.ok("操作成功");
     }
 }

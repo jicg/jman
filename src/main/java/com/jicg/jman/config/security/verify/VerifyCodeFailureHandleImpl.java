@@ -1,7 +1,7 @@
 package com.jicg.jman.config.security.verify;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
@@ -25,7 +25,7 @@ public class VerifyCodeFailureHandleImpl implements IVerifyCodeFailureHandle {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         objectMapper.writeValue(
                 httpServletResponse.getWriter(),
-                R.fail("登陆失败：" + e.getLocalizedMessage())
+                Resp.fail("登陆失败：" + e.getLocalizedMessage())
         );
     }
 }

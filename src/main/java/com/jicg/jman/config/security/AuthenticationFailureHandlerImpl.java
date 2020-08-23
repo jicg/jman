@@ -2,7 +2,7 @@ package com.jicg.jman.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jicg.jman.utils.Utils;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -34,7 +34,7 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
             httpServletResponse.setContentType("application/json;charset=utf-8");
             objectMapper.writeValue(
                     httpServletResponse.getWriter(),
-                    R.fail("登陆失败：用户或密码错误 " + e.getLocalizedMessage())
+                    Resp.fail("登陆失败：用户或密码错误 " + e.getLocalizedMessage())
             );
         }else{
             log.info("AuthenticationSuccessHandler: "+httpServletRequest.getRequestURI());

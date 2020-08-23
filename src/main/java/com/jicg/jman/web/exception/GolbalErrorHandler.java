@@ -1,12 +1,11 @@
 package com.jicg.jman.web.exception;
 
 import com.jicg.jman.utils.Utils;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class GolbalErrorHandler {
     private Object getReturnData(HttpServletRequest req, Throwable e) {
         log.info("---------------------------");
         if (Utils.isJsonReq(req)) {
-            return R.fail(e.getLocalizedMessage());
+            return Resp.fail(e.getLocalizedMessage());
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("message", e.getMessage());

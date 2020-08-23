@@ -1,7 +1,7 @@
 package com.jicg.jman.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -25,6 +25,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
                                 HttpServletResponse httpServletResponse,
                                 Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=utf-8");
-        objectMapper.writeValue(httpServletResponse.getOutputStream(), R.ok("操作成功"));
+        objectMapper.writeValue(httpServletResponse.getOutputStream(), Resp.ok("操作成功"));
     }
 }

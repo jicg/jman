@@ -2,7 +2,7 @@ package com.jicg.jman.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jicg.jman.utils.Utils;
-import com.jicg.jman.bean.vo.R;
+import com.jicg.jman.bean.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,7 +33,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             throws IOException, ServletException {
         if (Utils.isJsonReq(request)) {
             response.setContentType("application/json;charset=utf-8");
-            objectMapper.writeValue(response.getOutputStream(), R.ok("登陆成功"));
+            objectMapper.writeValue(response.getOutputStream(), Resp.ok("登陆成功"));
         } else {
             log.info("AuthenticationSuccessHandler: "+request.getRequestURI());
             redirectStrategy.sendRedirect(request,
