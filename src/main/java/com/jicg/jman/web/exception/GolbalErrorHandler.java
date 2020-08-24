@@ -3,12 +3,16 @@ package com.jicg.jman.web.exception;
 import com.jicg.jman.utils.Utils;
 import com.jicg.jman.bean.vo.Resp;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author jicg on 2020/4/16
@@ -30,8 +34,17 @@ public class GolbalErrorHandler {
 //    }
 
     private Object getReturnData(HttpServletRequest req, Throwable e) {
-        log.info("---------------------------");
         if (Utils.isJsonReq(req)) {
+            if (e instanceof UncategorizedSQLException) {
+                return Resp.fail(Utils.findSqlMsg(e.getLocalizedMessage()));
+            }
+            if (e instanceof DataAccessException) {
+                Throwable throwable = ((DataAccessException) e).getRootCause();
+                if (throwable == null) {
+                    return Resp.fail("数据存储异常：未知错误！");
+                }
+                return Resp.fail("数据存储异常："+throwable.getLocalizedMessage());
+            }
             return Resp.fail(e.getLocalizedMessage());
         }
         ModelAndView modelAndView = new ModelAndView();

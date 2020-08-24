@@ -121,7 +121,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new ValidateCodeFilter();
     }
 
-    private PasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 

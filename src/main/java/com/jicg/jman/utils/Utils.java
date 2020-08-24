@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author jicg on 2020/5/5
@@ -32,6 +34,8 @@ public class Utils {
     }
 
     public static SysUser getUser() {
+        if (SecurityContextHolder.getContext().getAuthentication() == null
+                || SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) return null;
         return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
@@ -62,4 +66,21 @@ public class Utils {
                         || "XMLHttpRequest".equalsIgnoreCase(xRequestedWith)
         );
     }
+
+    public static String findSqlMsg(String message) {
+        if (message != null && message.matches("[^*]+SQLException[^*]+ORA-[0-9]*:[^*]*")) {
+//            String pattern = "ORA-[0-9]+:(.*)\nORA-[0-9]+:";
+            String pattern = "ORA-[0-9]+:(.*)\n";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(message);
+            if (m.find()) {
+                return m.group().replaceAll("ORA-[0-9]+:", "").trim();
+            }
+        }
+        if (message != null && message.contains("\n###")) {
+
+        }
+        return message;
+    }
+
 }

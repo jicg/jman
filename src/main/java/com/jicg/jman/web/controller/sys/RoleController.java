@@ -1,6 +1,8 @@
 package com.jicg.jman.web.controller.sys;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.bean.vo.RespList;
 import com.jicg.jman.orm.entity.SysRole;
 import com.jicg.jman.orm.entity.SysUser;
@@ -8,10 +10,7 @@ import com.jicg.jman.service.ISysRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -31,17 +30,17 @@ public class RoleController {
 
     @GetMapping(path = {"/index.html"}, produces = {"text/html"})
     public ModelAndView indexPage() {
-        return new ModelAndView("page/sys/auth/user/index.html");
+        return new ModelAndView("page/sys/auth/role/index.html");
     }
 
     @GetMapping(path = {"/add.html"}, produces = {"text/html"})
     public ModelAndView addPage() {
-        return new ModelAndView("page/sys/auth/user/add.html");
+        return new ModelAndView("page/sys/auth/role/edit.html");
     }
 
     @GetMapping(path = {"/edit.html"}, produces = {"text/html"})
     public ModelAndView editPage(@RequestParam("id") long id) {
-        ModelAndView view = new ModelAndView("page/sys/auth/user/add.html");
+        ModelAndView view = new ModelAndView("page/sys/auth/role/edit.html");
         SysRole role = sysRoleService.getById(id);
         view.addObject("role", role);
         return view;
@@ -51,5 +50,22 @@ public class RoleController {
     @ApiOperation("查询用户")
     public RespList<SysRole> query(@RequestParam("page") long page, @RequestParam("limit") long limit) {
         return RespList.ok(sysRoleService.page(new Page<>(page, limit)));
+    }
+
+
+    @PostMapping("/edit")
+    @ApiOperation("修改用户")
+    public Resp<String> edit(SysRole role) {
+        sysRoleService.saveOrUpdate(role);
+        return Resp.ok("操作成功");
+    }
+
+    @PostMapping("/del")
+    @ApiOperation("删除用户")
+    public Resp<String> del(@RequestParam("id") long id) {
+        SysRole sysRole = sysRoleService.getById(id);
+        if (sysRole == null) throw new RuntimeException("用户已不存在");
+        sysRoleService.removeById(id);
+        return Resp.ok("操作成功");
     }
 }

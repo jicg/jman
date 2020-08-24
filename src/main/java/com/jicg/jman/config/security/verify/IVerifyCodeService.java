@@ -53,7 +53,7 @@ public interface IVerifyCodeService {
         }
 
         if (verifyCodeBean.isExpried()) {
-            session.removeAttribute(VerifyCodeBean.VERIFY_CODE_SESSION_KEY);
+//            session.removeAttribute(VerifyCodeBean.VERIFY_CODE_SESSION_KEY);
             throw new ValidateCodeException("验证码失效！！");
         }
         if (!StrUtil.equals(verifyCodeBean.getCode(), vaild_code)) {

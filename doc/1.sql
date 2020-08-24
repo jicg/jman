@@ -41,20 +41,25 @@ create TABLE `sys_user` (
 
 INSERT INTO `jman`.`sys_user`( `email`, `username`, `password`, `mobile`, `remark`, `creater_id`, `create_at`, `updater_id`, `update_at`) VALUES ( 'root@qq.com', 'root', '$2a$10$itksZ0lFqL/t56CLMf81lOAUGVEV6QT1RXlkPqNtHT3vMC2IjITzS', '18712312312', '系统用户-超级管理员', 0, '2020-04-20 10:18:15', 0, '2020-04-20 10:18:19');
 
-create TABLE `sys_role` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-
-  `name` varchar(100) not null COMMENT '角色名',
-  `remark` varchar(2000)   default '' COMMENT '备注信息',
-
-  `creater_id` int(11)  NULL DEFAULT NULL COMMENT '创建人',
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(100) NOT NULL COMMENT '角色名',
+  `remark` varchar(2000) DEFAULT '' COMMENT '备注信息',
+  `creater_id` int DEFAULT NULL COMMENT '创建人',
   `create_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `updater_id`  int(11) NULL DEFAULT NULL COMMENT '修改人',
+  `updater_id` int DEFAULT NULL COMMENT '修改人',
   `update_at` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  unique KEY `name` (`name`)
+  `code` varchar(255) NOT NULL COMMENT '角色编号',
+  PRIMARY KEY (`id`,`name`) USING BTREE,
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `code` (`code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色表';
 
+SET FOREIGN_KEY_CHECKS = 1;
 
 create TABLE `sys_user_role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',

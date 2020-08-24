@@ -1,6 +1,7 @@
 package com.jicg.jman.config.interceptors;
 
 import cn.hutool.core.util.StrUtil;
+import com.jicg.jman.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -39,6 +40,8 @@ public class ResultInterceptor implements HandlerInterceptor {
                            Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
             String comb = StrUtil.nullToDefault(request.getParameter("comb"), "page");
+
+            modelAndView.addObject("webUser", Utils.getUser());
             modelAndView.addObject("comb", comb);
         }
         if (handler instanceof HandlerMethod) {
