@@ -19,6 +19,7 @@
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auth">权限</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -44,7 +45,7 @@
                     // {field: 'code', minWidth: 120, title: '角色编号'},
                     {field: 'name', title: '角色名称'},
                     {field: 'remark', title: '备注'},
-                    {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
+                    {templet: '#auth-state', width: 180, align: 'center', title: '操作'}
                 ]],
                 style: "margin-top:0;"
             });
@@ -84,6 +85,16 @@
                     shadeClose: true
                 });
                 layer.full(add_dialog);
+            } else if (layEvent === 'auth') {
+                var auth_dialog = layer.open({
+                    type: 2,
+                    title: '授权-编辑',
+                    content: '/role/auth.html?id=' + data.id,
+                    area: ['60%', '90%'],
+                    maxmin: false,
+                    shadeClose: true
+                });
+                // layer.full(auth_dialog);
             }
         });
         //监听工具条
