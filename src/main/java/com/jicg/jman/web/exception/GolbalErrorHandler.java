@@ -1,7 +1,10 @@
 package com.jicg.jman.web.exception;
 
+import com.jicg.jman.bean.vo.dtree.DTreeResponse;
+import com.jicg.jman.bean.vo.dtree.Status;
 import com.jicg.jman.utils.Utils;
 import com.jicg.jman.bean.vo.Resp;
+import com.sun.org.apache.bcel.internal.generic.DCONST;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,6 +23,8 @@ import java.util.Objects;
 @Slf4j
 @ControllerAdvice
 public class GolbalErrorHandler {
+
+
     @ExceptionHandler(value = Throwable.class)
     @ResponseBody
     public Object handleException(HttpServletRequest req, Exception e) throws Exception {
@@ -34,6 +39,13 @@ public class GolbalErrorHandler {
 //    }
 
     private Object getReturnData(HttpServletRequest req, Throwable e) {
+        Object obj = req.getAttribute(DTreeResponse.DTREE_RESP);
+        if (obj != null && ((boolean) obj)) {
+            DTreeResponse dTreeResponse = new DTreeResponse();
+            dTreeResponse.setStatus(new Status(500, "错误: " + e.getLocalizedMessage()));
+            return dTreeResponse;
+        }
+
         if (Utils.isJsonReq(req)) {
             if (e instanceof UncategorizedSQLException) {
                 return Resp.fail(Utils.findSqlMsg(e.getLocalizedMessage()));
@@ -43,7 +55,7 @@ public class GolbalErrorHandler {
                 if (throwable == null) {
                     return Resp.fail("数据存储异常：未知错误！");
                 }
-                return Resp.fail("数据存储异常："+throwable.getLocalizedMessage());
+                return Resp.fail("数据存储异常：" + throwable.getLocalizedMessage());
             }
             return Resp.fail(e.getLocalizedMessage());
         }

@@ -1,5 +1,6 @@
 package com.jicg.jman.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.jicg.jman.bean.vo.MenuVo;
 import com.jicg.jman.bean.vo.TreeBeanVo;
 import com.jicg.jman.orm.entity.SysMenu;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * @author jicg on 2020/4/17
  */
-public interface ISysMenuService {
+public interface ISysMenuService  extends IService<SysMenu> {
 //    List<SysMenu> queryMenusByPid(Long pid);
 
     List<MenuVo> queryAllMenus(SysUser user);

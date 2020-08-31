@@ -62,13 +62,14 @@
             elem: "#cskTree1",
             url: "/role/auth/data",
             checkbar: true,
-            load: false
+            load: false,
+            //response: {message:"msg",statusCode:0},
         });
         dtree.render({
             elem: "#cskTree2",
             data: [],
             checkbar: true,
-            response: {treeId: "nodeId", title: "context"},
+            response: {treeId: "nodeId", title: "context",message:"msg",statusCode:0},
             dataFormat: "list"
         });
         $("#csk_btn").click(function () {

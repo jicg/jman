@@ -1,6 +1,7 @@
 package com.jicg.jman.config.interceptors;
 
 import cn.hutool.core.util.StrUtil;
+import com.jicg.jman.bean.vo.dtree.DTreeResponse;
 import com.jicg.jman.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 /**
  * @author jicg on 2020/8/4
@@ -19,18 +21,10 @@ public class ResultInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         if (handler instanceof HandlerMethod) {
-
-//            HandlerMethod handlerMethod = (HandlerMethod) handler;
-//            Method method = handlerMethod.getMethod();
-//            UserAuth userAuth = method.getAnnotation(UserAuth.class);
-//            if (Objects.nonNull(userAuth)) {
-//                SysUser sysUser = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-//                //userAuthenticate.permission()取出permission判断是否需要校验权限
-////            if (userId == null || (userAuthenticate.permission() && !checkAuth(userId,request.getRequestURI()))){
-////                throw new FastRuntimeException(20001,"No access");
-////            }
-//                request.setAttribute(Const.USER_KEY, sysUser);
-//            }
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            boolean isDtree = method.getReturnType().equals(DTreeResponse.class);
+            if (isDtree) request.setAttribute(DTreeResponse.DTREE_RESP, isDtree);
         }
         return true;
     }
