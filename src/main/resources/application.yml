@@ -33,9 +33,13 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   session:
-    store-type: jdbc
-    jdbc:
-      initialize-schema: always
+    store-type: redis
+  #    store-type: jdbc
+#    jdbc:
+#      initialize-schema: always
+  redis:
+    port: 6379
+    host: 192.168.2.88
 mybatis-plus:
   global-config:
     banner: false

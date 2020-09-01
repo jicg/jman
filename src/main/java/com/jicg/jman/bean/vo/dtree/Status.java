@@ -1,7 +1,9 @@
 package com.jicg.jman.bean.vo.dtree;
 
+import java.io.Serializable;
+
 /** 信息状态类*/
-public class Status {
+public class Status implements Serializable {
 	
 	private int code = 200;
 	

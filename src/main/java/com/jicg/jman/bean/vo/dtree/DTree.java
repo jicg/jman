@@ -1,10 +1,24 @@
 package com.jicg.jman.bean.vo.dtree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+//  {
+//		  "nodeId": "251",
+//		  "parentId": "250",
+//		  "context": "菜单管理",
+//		  "leaf": false,
+//		  "level": "2",
+//		  "spread": false,
+//		  "dataType": "0",
+//		  "checked": "1",
+//		  "initchecked": "1"
+//		  },
 /** 树类*/
-public class DTree {
+public class DTree implements Serializable {
 
 	/** 节点ID*/
 	private String id;

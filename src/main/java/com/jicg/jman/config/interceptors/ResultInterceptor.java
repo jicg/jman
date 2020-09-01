@@ -34,13 +34,12 @@ public class ResultInterceptor implements HandlerInterceptor {
                            Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
             String comb = StrUtil.nullToDefault(request.getParameter("comb"), "page");
-
             modelAndView.addObject("webUser", Utils.getUser());
             modelAndView.addObject("comb", comb);
         }
-        if (handler instanceof HandlerMethod) {
-            log.info("ResultInterceptor postHandle HandlerMethod ");
-        }
+//        if (handler instanceof HandlerMethod) {
+//            log.info("ResultInterceptor postHandle HandlerMethod ");
+//        }
     }
 
     @Override

@@ -1,22 +1,28 @@
 package com.jicg.jman.web.controller.sys;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.bean.vo.RespList;
+import com.jicg.jman.bean.vo.dtree.DTreeReq;
 import com.jicg.jman.bean.vo.dtree.DTreeResponse;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.orm.entity.SysRole;
 import com.jicg.jman.service.ISysMenuService;
 import com.jicg.jman.service.ISysRoleService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author jicg on 2020/8/5
  */
+@Slf4j
 @RestController
 @RequestMapping("/role")
 public class RoleController {
@@ -80,6 +86,15 @@ public class RoleController {
     @PostMapping("/auth/data")
     public DTreeResponse json() {
         List<SysMenu> sysMenuList = sysMenuService.list();
-        return DTreeResponse.toTree(sysMenuList);
+        return DTreeResponse.toTreeChecked(sysMenuList, sysMenuList);
     }
+
+    @PostMapping("/auth/save")
+    public Resp<String> save(@RequestParam(value = "data") String data) {
+        log.error("save  " + data);
+        List<DTreeReq> reqs = JSONObject.parseArray(data, DTreeReq.class);
+        log.error("save  " + JSONObject.toJSONString(reqs));
+        return Resp.ok("操作成功");
+    }
+
 }

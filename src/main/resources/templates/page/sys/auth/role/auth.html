@@ -15,12 +15,12 @@
     <div class="layuimini-main">
         <div class="layui-fluid">
             <fieldset class="layui-elem-field layui-field-title" id="csk">
-                <legend>穿梭框树的简易实现</legend>
+                <legend>角色权限设置</legend>
                 <div class="layui-field-box">
                     <div class="layui-row layui-col-space10" style="margin-top: 10px;background: #f2f2f2">
-                        <div class="layui-col-lg5 layui-col-md5">
+                        <div class="layui-col-lg12 layui-col-md12">
                             <div class="layui-card">
-                                <div class="layui-card-header">左边的树</div>
+                                <div class="layui-card-header">菜单类别</div>
                                 <div class="layui-card-body">
                                     <div style="height: 350px;overflow: auto;">
                                         <ul id="cskTree1" class="dtree" data-id="0"></ul>
@@ -28,25 +28,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layui-col-lg2 layui-col-md2">
-                            <div style="height: 350px;">
-                                <button class="layui-btn layui-btn-normal" style="margin-top: 180px;" id="csk_btn">
-                                    转移到右边
-                                </button>
-                            </div>
-                        </div>
-                        <div class="layui-col-lg5 layui-col-md5">
-                            <div class="layui-card">
-                                <div class="layui-card-header">右边的树</div>
-                                <div class="layui-card-body">
-                                    <div style="height: 350px;overflow: auto;">
-                                        <ul id="cskTree2" class="dtree" data-id="-1"></ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+
+                <button class="layui-btn layui-btn-normal" id="save_btn">保存权限</button>
             </fieldset>
         </div>
     </div>
@@ -65,19 +50,12 @@
             load: false,
             //response: {message:"msg",statusCode:0},
         });
-        dtree.render({
-            elem: "#cskTree2",
-            data: [],
-            checkbar: true,
-            response: {treeId: "nodeId", title: "context",message:"msg",statusCode:0},
-            dataFormat: "list"
-        });
-        $("#csk_btn").click(function () {
-            var param = dtree.getCheckbarNodesParam("cskTree1");  // 获取选中数据
-            if (param.length == 0) {
-                layer.msg("请至少选择一个节点");
-            }
-            dtree.reload("cskTree2", {data: param});
+        $("#save_btn").click(function () {
+            var params = dtree.getCheckbarNodesParam("cskTree1");
+            console.log(params);
+            $.post("/role/auth/save", {data: JSON.stringify(params)}, function (data) {
+            });
+
         });
     });
 </script>

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @ApiModel(description = "菜单")
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MenuVo {
+public class MenuVo  implements Serializable {
     @ApiModelProperty("上级菜单id")
     private Long pid = 0L;
 

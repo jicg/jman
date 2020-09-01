@@ -1,19 +1,21 @@
 package com.jicg.jman.bean.vo.dtree;
 
+import java.io.Serializable;
+
 /** 复选框设计类*/
-public class CheckArr {
+public class CheckArr implements Serializable {
 
 	/** 复选框标记*/
 	private String type;
 	
 	/** 复选框是否选中*/
-	private String isChecked;
+	private String checked;
 	
 	public CheckArr() {}
 
-	public CheckArr(String type, String isChecked) {
+	public CheckArr(String type, String checked) {
 		this.type = type;
-		this.isChecked = isChecked;
+		this.checked = checked;
 	}
 
 	public String getType() {
@@ -24,17 +26,18 @@ public class CheckArr {
 		this.type = type;
 	}
 
-	public String getIsChecked() {
-		return isChecked;
+	public String getChecked() {
+		return checked;
 	}
 
-	public void setIsChecked(String isChecked) {
-		this.isChecked = isChecked;
+	public void setChecked(String checked) {
+		this.checked = checked;
 	}
+
 
 	@Override
 	public String toString() {
-		return "CheckArr [type=" + type + ", isChecked=" + isChecked + "]";
+		return "CheckArr [type=" + type + ", isChecked=" + checked + "]";
 	}
 	
 }
