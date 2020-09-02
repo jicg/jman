@@ -1,10 +1,16 @@
-FROM openjdk:8-jre
-MAINTAINER jicg <284077319@qq.com>
+FROM maven:3.3.3
 
-ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/myservice/myservice.jar"]
+ADD pom.xml /tmp/build/
+RUN cd /tmp/build && mvn -q dependency:resolve
 
-# Add Maven dependencies (not shaded into the artifact; Docker-cached)
-#ADD target/lib           /usr/share/myservice/lib
-# Add the service itself
-ARG JAR_FILE
-ADD target/${JAR_FILE} /usr/share/myservice/myservice.jar
+ADD src /tmp/build/src
+        #构建应用
+RUN cd /tmp/build && mvn -q -DskipTests=true package \
+        #拷贝编译结果到指定目录
+        && mv target/*.jar /app.jar \
+        #清理编译痕迹
+        && cd / && rm -rf /tmp/build
+
+VOLUME /tmp
+EXPOSE 8080
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
