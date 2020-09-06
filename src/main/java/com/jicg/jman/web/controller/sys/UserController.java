@@ -5,12 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.bean.vo.RespList;
 import com.jicg.jman.bean.vo.UserVo;
+import com.jicg.jman.orm.entity.SysRole;
 import com.jicg.jman.orm.entity.SysUser;
 import com.jicg.jman.service.ISysUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * @author jicg on 2020/8/5
@@ -33,12 +36,29 @@ public class UserController {
         return new ModelAndView("page/sys/auth/user/index.html");
     }
 
+
+    @GetMapping(path = {"/roles.html"}, produces = {"text/html"})
+    public ModelAndView roles(@RequestParam(value = "id") long id) {
+        SysUser user = sysUserService.getById(id);
+        ModelAndView view = new ModelAndView("page/sys/auth/user/roles.html");
+        view.addObject("user", user);
+        return view;
+    }
+
+
     @GetMapping(path = {"/add.html", "/edit.html"}, produces = {"text/html"})
     public ModelAndView edit(@RequestParam(value = "id", required = false, defaultValue = "0") long id) {
         SysUser user = sysUserService.getById(id);
         ModelAndView view = new ModelAndView("page/sys/auth/user/edit.html");
         view.addObject("user", user);
         return view;
+    }
+
+
+    @GetMapping("role/list")
+    @ApiOperation("授权的角色")
+    public Resp<List<SysRole>> query(@RequestParam("userId") long userId) {
+        return Resp.ok("success", sysUserService.queryRolesByUserId(userId));
     }
 
 

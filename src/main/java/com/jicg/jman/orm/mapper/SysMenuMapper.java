@@ -24,4 +24,12 @@ public interface SysMenuMapper extends MyBaseMapper<SysMenu> {
 //    List<SysMenu> queryMenusByPid(@Param("pid") Long pid);
 
     List<SysMenu> queryMenusByUserId(@Param("id") Long id);
+
+    List<SysMenu> queryMenusByRoleId(@Param("roleId") long roleId);
+
+    List<Long> queryMenuIdsByRoleId(@Param("roleId") long roleId);
+
+    void insertMenuIdByRoleId(@Param("roleId") long roleId, @Param("menuIds") List<Long> menuIds);
+
+    void deleteMenuIdByRoleId(@Param("roleId") long roleId, @Param("menuIds") List<Long> menuIds);
 }

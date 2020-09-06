@@ -14,6 +14,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div class="layui-fluid">
+            <input id="roleId" type="hidden" th:value="${role?.Id}">
             <fieldset class="layui-elem-field layui-field-title" id="csk">
                 <legend>角色权限设置</legend>
                 <div class="layui-field-box">
@@ -43,17 +44,37 @@
     layui.use(['dtree', 'layer', 'jquery'], function () {
         var dtree = layui.dtree
             , layer = layui.layer, $ = layui.jquery;
-        dtree.render({
+
+        var roleId = $("#roleId").val();
+        var DTreeNode = dtree.render({
             elem: "#cskTree1",
-            url: "/role/auth/data",
+            url: "/role/auth/data?roleId=" + roleId,
             checkbar: true,
             load: false,
             //response: {message:"msg",statusCode:0},
         });
+
+
+        dtree.on("node(cskTree1)", function (obj) {
+            var nodeId = obj.param.nodeId;
+            DTreeNode.clickNodeCheckbar(nodeId);// 点击节点选中复选框
+            // var checkbarNodes = dtree.getCheckbarNodesParam("checkbarTreeNode");
+            // layer.msg(JSON.stringify(checkbarNodes));
+        });
+
+
         $("#save_btn").click(function () {
             var params = dtree.getCheckbarNodesParam("cskTree1");
-            console.log(params);
-            $.post("/role/auth/save", {data: JSON.stringify(params)}, function (data) {
+            var ids = [];
+            for (var i = 0; i < params.length; i++) {
+                ids.push(params[i].nodeId);
+            }
+            $.post("/role/auth/save", {roleId: roleId, ids: ids}, function (e) {
+                if (e.code === 0) {
+                    layer.msg(e.msg);
+                } else {
+                    layer.msg(e.msg);
+                }
             });
 
         });

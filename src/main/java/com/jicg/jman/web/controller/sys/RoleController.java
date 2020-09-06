@@ -1,7 +1,6 @@
 package com.jicg.jman.web.controller.sys;
 
-import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.bean.vo.RespList;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author jicg on 2020/8/5
@@ -84,16 +84,19 @@ public class RoleController {
     }
 
     @PostMapping("/auth/data")
-    public DTreeResponse json() {
+    public DTreeResponse loadRoleAuthMenu(@RequestParam("roleId") int roleId) {
         List<SysMenu> sysMenuList = sysMenuService.list();
-        return DTreeResponse.toTreeChecked(sysMenuList, sysMenuList);
+        List<SysMenu> authMenuList = sysRoleService.queryMenusByRoleId(roleId);
+        return DTreeResponse.toTreeChecked(sysMenuList, authMenuList);
     }
 
     @PostMapping("/auth/save")
-    public Resp<String> save(@RequestParam(value = "data") String data) {
-        log.error("save  " + data);
-        List<DTreeReq> reqs = JSONObject.parseArray(data, DTreeReq.class);
-        log.error("save  " + JSONObject.toJSONString(reqs));
+    public Resp<String> save(@RequestParam(value = "roleId") long roleId
+            , @RequestParam(value = "ids[]") List<String> ids) {
+        List<Long> menuIds = ids.stream()
+                .map(NumberUtil::parseLong)
+                .collect(Collectors.toList());
+        sysRoleService.saveRoleMenus(roleId, menuIds);
         return Resp.ok("操作成功");
     }
 

@@ -4,4 +4,11 @@
     <select id="selectPageVo" resultType="com.jicg.jman.bean.vo.UserVo">
         SELECT  id,username, email,mobile,remark FROM sys_user
         </select>
+    <select id="queryRolesByUserId" resultType="com.jicg.jman.orm.entity.SysRole">
+        SELECT  r.*
+        FROM sys_user u,sys_role r,sys_user_role ur
+        where u.id = ur.user_id
+        and r.id = ur.role_id
+        and ur.user_id = #{userId,mode=IN,jdbcType=INTEGER}
+    </select>
 </mapper>
