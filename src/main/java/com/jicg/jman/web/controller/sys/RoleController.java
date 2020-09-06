@@ -4,7 +4,6 @@ import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jicg.jman.bean.vo.Resp;
 import com.jicg.jman.bean.vo.RespList;
-import com.jicg.jman.bean.vo.dtree.DTreeReq;
 import com.jicg.jman.bean.vo.dtree.DTreeResponse;
 import com.jicg.jman.orm.entity.SysMenu;
 import com.jicg.jman.orm.entity.SysRole;
@@ -103,5 +102,4 @@ public class RoleController {
         sysRoleService.saveRoleMenus(roleId, menuIds);
         return Resp.ok("操作成功");
     }
-
 }
