@@ -87,12 +87,16 @@ public class RoleController {
     public DTreeResponse loadRoleAuthMenu(@RequestParam("roleId") int roleId) {
         List<SysMenu> sysMenuList = sysMenuService.list();
         List<SysMenu> authMenuList = sysRoleService.queryMenusByRoleId(roleId);
-        return DTreeResponse.toTreeChecked(sysMenuList, authMenuList);
+        return DTreeResponse.toTreeChecked(
+                sysMenuList,
+                authMenuList,
+                (d) -> new DTreeResponse.TreeItem<>(d.getId(), d.getPid(), d.getTitle()));
     }
 
     @PostMapping("/auth/save")
     public Resp<String> save(@RequestParam(value = "roleId") long roleId
             , @RequestParam(value = "ids[]") List<String> ids) {
+        if (ids == null) ids = new ArrayList<>();
         List<Long> menuIds = ids.stream()
                 .map(NumberUtil::parseLong)
                 .collect(Collectors.toList());

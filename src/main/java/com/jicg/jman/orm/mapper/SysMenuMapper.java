@@ -32,4 +32,5 @@ public interface SysMenuMapper extends MyBaseMapper<SysMenu> {
     void insertMenuIdByRoleId(@Param("roleId") long roleId, @Param("menuIds") List<Long> menuIds);
 
     void deleteMenuIdByRoleId(@Param("roleId") long roleId, @Param("menuIds") List<Long> menuIds);
+
 }

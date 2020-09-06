@@ -91,13 +91,12 @@
             } else if (layEvent === 'roles') {
             var roles_dialog = layer.open({
                 type: 2,
-                title: '用户-编辑',
+                title: '用户-角色管理',
                 content: '/user/roles.html?id=' + data.id,
-                area: ['80%', '90%'],
-                maxmin: true,
+                area: ['60%', '90%'],
+                maxmin: false,
                 shadeClose: true
             });
-            layer.full(roles_dialog);
         }
         });
         //监听工具条

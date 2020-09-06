@@ -20,4 +20,6 @@ public interface ISysUserService extends IService<SysUser> {
     IPage<UserVo> selectPageVo(Page<?> page);
 
     List<SysRole> queryRolesByUserId(long userId);
+
+    void saveUserRoles(long userId, List<Long> roleIds);
 }

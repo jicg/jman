@@ -1,7 +1,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jicg.jman.orm.mapper.SysRoleMapper">
+    <insert id="insertMenuIdByRoleId">
+        insert into sys_user_role(user_id,role_id) values
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            (#{userId,mode=IN,jdbcType=INTEGER},#{roleId,mode=IN,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <delete id="deleteMenuIdByRoleId">
+        delete from sys_user_role where user_id = #{userId,mode=IN,jdbcType=INTEGER} and role_id in
+        <foreach item="roleId" collection="roleIds" open="(" separator="," close=")">
+            #{roleId,mode=IN,jdbcType=INTEGER}
+        </foreach>
+    </delete>
 
-<!--    <select id="selectPageVo" resultType="com.jicg.jman.orm.entity.SysRole">-->
-<!--        SELECT  id,username, email,mobile,remark FROM sys_user-->
-<!--        </select>-->
+    <!--    <select id="selectPageVo" resultType="com.jicg.jman.orm.entity.SysRole">-->
+    <!--        SELECT  id,username, email,mobile,remark FROM sys_user-->
+    <!--        </select>-->
+    <select id="queryRolesByUserId" resultType="java.lang.Long">
+        SELECT distinct r.id
+        from sys_role r,sys_user_role ur,sys_user u
+        where r.id = ur.role_id
+        and ur.user_id = u.id
+        and u.id = #{userId,mode=IN,jdbcType=INTEGER}
+    </select>
 </mapper>
