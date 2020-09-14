@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <div th:replace="comm/page::layui_css"/>
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="job-table" lay-filter="job-table-filter"></table>
+    </div>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="pause">暂停</a>
+    <a class="layui-btn layui-btn-info layui-btn-xs" lay-event="resume">恢复</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-group" style="margin-top: 10px">
+        <button lay-event="add_btn" type="button" id="add_btn" class="layui-btn layui-btn-primary layui-btn-sm">
+            <i class="layui-icon">&#xe654;</i>
+        </button>
+    </div>
+</script>
+<div th:replace="comm/page::layui_script"/>
+<script th:inline="none">
+    layui.use(['table', 'jman'], function () {
+        var $ = layui.jquery, jman = layui.jman,
+            table = layui.table;
+
+        // 渲染表格
+        // layer.load(2);
+        var jobTable = table.render({
+            elem: '#job-table',
+            url: '/job/list',
+            toolbar: '#toolbar',
+            page: true,
+            cols: [[
+                {type: 'numbers', minWidth: 30,},
+                {field: 'jobName', minWidth: 120, title: '任务名称'},
+                {field: 'jobGroup', title: '任务所在组'},
+                {field: 'jobClassName', title: '任务类名'},
+                {field: 'triggerName', title: '触发器名称'},
+                {field: 'triggerGroup', title: '触发器所在组'},
+                {field: 'cronExpression', title: '表达式'},
+                {field: 'timeZoneId', title: '时区'},
+                {
+                    field: 'triggerState', title: '状态', align: 'center', templet: function (d) {
+                        if (d.triggerState === 'WAITING' || d.triggerState === 'ACQUIRED') {
+                            return "运行中";
+                        } else if (d.triggerState === 'PAUSED') {
+                            return "暂停";
+                        } else {
+                            return "未知状态";
+                        }
+                    }
+                },
+                {templet: '#auth-state', width: 240, align: 'center', title: '操作'}
+            ]],
+            style: "margin-top:0;"
+        });
+        window.refreshView = function () {
+            jobTable.reload();
+        };
+        //监听工具条
+        table.on('tool(job-table-filter)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            var param = {"jobName": data.jobName, "jobGroup": data.jobGroup};
+            if (layEvent === 'del') {
+                jman.confirm('确定要删除？', function () {
+                    $.post("/job/del", param, function (e) {
+                        if (e.code === 0) {
+                            layer.msg(e.msg);
+                            obj.del();
+                        } else {
+                            layer.msg(e.msg);
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') {
+                jman.showDialog("任务编辑", "/job/edit.html", data, function (dialog) {
+                    layer.full(dialog);
+                    window.dialogJobEdit = dialog;
+                });
+            } else if (layEvent === 'pause' || layEvent === 'resume') {
+                var str = "确定 " + (layEvent === 'pause' ? '暂停' : '') + (layEvent === 'resume' ? '恢复' : '') + "?";
+                jman.confirm(str, function () {
+                    $.post("/job/"+layEvent, param, function (e) {
+                        if (e.code === 0) {
+                            layer.msg(e.msg);
+                            jobTable.reload();
+                        } else {
+                            layer.msg(e.msg);
+                        }
+                    });
+                });
+            }
+        });
+        //监听工具条
+        table.on('toolbar(job-table-filter)', function (obj) {
+            console.log(obj);
+            var layEvent = obj.event;
+            if (layEvent === 'add_btn') {
+                jman.showDialog("任务新增", "/job/edit.html", {}, function (dialog) {
+                    layer.full(dialog);
+                    window.dialogJobEdit = dialog;
+                });
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,10 +1,12 @@
 package com.jicg.jman.utils;
 
+import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import com.jicg.jman.config.security.UserDetailsImpl;
 import com.jicg.jman.orm.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
@@ -83,4 +85,7 @@ public class Utils {
         return message;
     }
 
+    public static QuartzJobBean getClass(String jobClassName) throws ClassNotFoundException {
+        return (QuartzJobBean) Singleton.get(Class.forName(jobClassName));
+    }
 }

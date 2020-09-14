@@ -17,6 +17,7 @@ layui.config({
     debug: true,
     version: false
 }).extend({
+    jman: "jman/jman", // layuimini后台扩展
     miniAdmin: "layuimini/miniAdmin", // layuimini后台扩展
     miniMenu: "layuimini/miniMenu", // layuimini菜单扩展
     miniPage: "layuimini/miniPage", // layuimini 单页扩展

@@ -10,16 +10,16 @@ server:
 spring:
   thymeleaf:
     cache: false
-#  devtools:
-#    livereload:
-#      enabled: true #是否支持livereload
-#      port: 35729
-#    restart:
-#      enabled: true #是否支持热部署
-#  mvc:
-#    throw-exception-if-no-handler-found: true
-#  resources:
-#    add-mappings: false
+  #  devtools:
+  #    livereload:
+  #      enabled: true #是否支持livereload
+  #      port: 35729
+  #    restart:
+  #      enabled: true #是否支持热部署
+  #  mvc:
+  #    throw-exception-if-no-handler-found: true
+  #  resources:
+  #    add-mappings: false
 
   datasource:
     url: jdbc:mysql://192.168.2.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
@@ -35,8 +35,42 @@ spring:
   session:
     store-type: redis
   #    store-type: jdbc
-#    jdbc:
-#      initialize-schema: always
+  #    jdbc:
+  #      initialize-schema: always
+  quartz:
+    # 将任务等保存化到数据库
+    job-store-type: jdbc
+    # 程序结束时会等待quartz相关的内容结束
+    wait-for-jobs-to-complete-on-shutdown: true
+    # QuartzScheduler启动时更新己存在的Job,这样就不用每次修改targetObject后删除qrtz_job_details表对应记录
+    overwrite-existing-jobs: true
+    scheduler-name: jicg-text
+    # 这里居然是个map，搞得智能提示都没有，佛了
+    properties:
+      org:
+        quartz:
+          # scheduler相关
+          scheduler:
+            # scheduler的实例名
+            instanceName: scheduler
+            instanceId: AUTO
+          # 持久化相关
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            # 表示数据库中相关表是QRTZ_开头的
+            tablePrefix: QRTZ_
+            useProperties: false
+          # 线程池相关
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            # 线程数
+            threadCount: 10
+            # 线程优先级
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    jdbc:
+      initialize-schema: never
   redis:
     port: 6379
     host: 192.168.2.88
