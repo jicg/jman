@@ -1,49 +1,23 @@
-#spring.session.store-type=jdbc
-#spring.datasource.data-username=root
-#spring.datasource.data-password=123
 server:
   port: 8081
-#  error:
-#    whitelabel:
-#      enabled: false
-
 spring:
-  thymeleaf:
-    cache: false
-  #  devtools:
-  #    livereload:
-  #      enabled: true #是否支持livereload
-  #      port: 35729
-  #    restart:
-  #      enabled: true #是否支持热部署
-  #  mvc:
-  #    throw-exception-if-no-handler-found: true
-  #  resources:
-  #    add-mappings: false
-
   datasource:
-    url: jdbc:mysql://192.168.1.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://192.168.1.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: abc123
-    #mysql5
-    #driver-class-name: com.mysql.jdbc.Driver
-    #mysql6
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   session:
     store-type: redis
-  #    store-type: jdbc
-  #    jdbc:
-  #      initialize-schema: always
   quartz:
     # 将任务等保存化到数据库
     job-store-type: jdbc
     # 程序结束时会等待quartz相关的内容结束
     wait-for-jobs-to-complete-on-shutdown: true
     # QuartzScheduler启动时更新己存在的Job,这样就不用每次修改targetObject后删除qrtz_job_details表对应记录
-    overwrite-existing-jobs: true
+    overwrite-existing-jobs: false
     scheduler-name: jicg-text
     # 这里居然是个map，搞得智能提示都没有，佛了
     properties:
@@ -83,5 +57,5 @@ mybatis-plus:
 
 app:
   title: 后台
-  indexPage: https://github.com/jicg/jman
+  indexPage: /page/welcome-1.html
   icon: https://portrait.gitee.com/uploads/avatars/user/149/448289_jicg_1578924211.png!avatar100

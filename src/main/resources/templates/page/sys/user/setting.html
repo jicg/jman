@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <div th:replace="comm/page::layui_css"/>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div class="layui-form layuimini-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">管理账号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username"
+                           disabled
+                           lay-reqtext="管理账号不能为空" placeholder="请输入管理账号" th:value="${webUser?.username}"
+                           class="layui-input">
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">手机</label>
+                <div class="layui-input-block">
+                    <input type="number" name="mobile" lay-verify="required" lay-reqtext="手机不能为空"
+                           th:value="${webUser?.mobile}"
+                           placeholder="请输入手机" value="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email" th:value="${webUser?.email}" placeholder="请输入邮箱" value=""
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" class="layui-textarea" th:value="${webUser?.remark}"
+                              placeholder="请输入备注信息"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="comm/page::layui_script"/>
+<script>
+    layui.use(['form', 'miniTab', 'jman'], function () {
+        var form = layui.form,
+            jman = layui.jman,
+            layer = layui.layer,
+            miniTab = layui.miniTab;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            jman.post("/changeUserInfo",  data.field, function (d) {
+                jman.success(d.msg);
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

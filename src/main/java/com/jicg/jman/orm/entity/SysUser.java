@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_user")
 public class SysUser extends Base {
     private String username;
+    private String nickname;
     private String email;
     private String password;
     private String mobile;

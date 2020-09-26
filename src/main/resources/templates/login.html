@@ -148,8 +148,9 @@
 </section>
 <script th:src="@{/res/lib/jq-module/jquery.particleground.min.js}" charset="utf-8"></script>
 <script>
-    layui.use(['jquery', 'form'], function () {
+    layui.use(['jquery', 'form','jman'], function () {
         var form = layui.form,
+            jman = layui.jman,
             $ = layui.jquery,
             layer = layui.layer;
 
@@ -164,7 +165,7 @@
             });
         });
 
-        $("#captchaPic").on("click",function () {
+        $("#captchaPic").on("click", function () {
             $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
         });
         // 进行登录操作
@@ -182,13 +183,19 @@
                 layer.msg('验证码不能为空');
                 return false;
             }
-            $.post("/api/login", data, function (ret) {
-                if (ret.code == 0) {
-                    window.location.href = "/index.html";
-                } else {
-                    layer.msg(ret.msg);
-                    $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
-                }
+            // $.post("/api/login", data, function (ret) {
+            //     if (ret.code == 0) {
+            //
+            //     } else {
+            //         layer.msg(ret.msg);
+            //         $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
+            //     }
+            // });
+            jman.post("/api/login", data, function (ret) {
+                window.location.href = "/index.html";
+                $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
+            }, function (ret) {
+                $("#captchaPic").attr("src", "/verify??v" + new Date().getTime());
             });
             return false;
         });

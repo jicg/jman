@@ -69,7 +69,7 @@ public class RedisPersistentRepository implements PersistentTokenRepository {
         String username = hashValues.get(0);
         String tokenValue = hashValues.get(1);
         String date = hashValues.get(2);
-        if (null == username || null == tokenValue || null == date) {
+        if (null == username || null == tokenValue || null == date||date.equalsIgnoreCase("null")) {
             return null;
         }
         Long timestamp = Long.valueOf(date);

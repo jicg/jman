@@ -2,7 +2,7 @@
 #spring.datasource.data-username=root
 #spring.datasource.data-password=123
 server:
-  port: 8081
+  port: 8082
 #  error:
 #    whitelabel:
 #      enabled: false
@@ -22,7 +22,7 @@ spring:
   #    add-mappings: false
 
   datasource:
-    url: jdbc:mysql://192.168.1.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://192.168.1.88:3306/jman?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: abc123
     #mysql5

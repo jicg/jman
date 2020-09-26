@@ -22,6 +22,7 @@ import java.util.Map;
 @Slf4j
 public class IndexController {
     private final ISysMenuService sysMenuService;
+
     private final AppConfig appConfig;
 
     @Autowired
