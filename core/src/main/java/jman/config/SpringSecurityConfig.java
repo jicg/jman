@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.servlet.Filter;
@@ -45,8 +44,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private  RedisPersistentRepository redisPersistentRepository;
+//    @Autowired
+//    private  RedisPersistentRepository redisPersistentRepository;
 
 
     @Override
@@ -100,12 +99,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
-//        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-//        jdbcTokenRepository.setDataSource(dataSource);
-//        //自动创建数据库表，使用一次后注释掉，不然会报错
-////        jdbcTokenRepository.setCreateTableOnStartup(true);
-//        return jdbcTokenRepository;
-        return redisPersistentRepository;
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl("sys_");
+        jdbcTokenRepository.setDataSource(dataSource);
+        //自动创建数据库表，使用一次后注释掉，不然会报错
+//        jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
+//        return redisPersistentRepository;
     }
 
     @Bean

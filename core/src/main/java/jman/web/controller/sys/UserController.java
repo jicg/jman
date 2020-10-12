@@ -64,12 +64,10 @@ public class UserController {
 
     @PostMapping("role/list")
     @ApiOperation("授权的角色")
-    public DTreeResponse query(@RequestParam("userId") long userId
-    ) {
+    public DTreeResponse query(@RequestParam("userId") long userId) {
         return DTreeResponse.toTreeChecked(
                 roleService.list(),
-                sysUserService.queryRolesByUserId(userId),
-                (d) -> new DTreeResponse.TreeItem<>(d.getId(), 0L, d.getName()));
+                sysUserService.queryRolesByUserId(userId), (d) -> new DTreeResponse.TreeItem<>(d.getId(), 0L, d.getName()));
 //        return Resp.ok("success", sysUserService.queryRolesByUserId(userId));
     }
 

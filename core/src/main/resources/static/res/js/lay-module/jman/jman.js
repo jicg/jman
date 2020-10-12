@@ -22,7 +22,9 @@ layui.define(["jquery", "layer", "miniAdmin"], function (exports) {
     function showDialog(title, url, data, callback) {
         if (!data) data = {};
         data.comb = "sub";
-        handleNet(url, "get", data, 'html', function (d) {
+        // handleNet(url, "GET", 'application/x-www-form-urlencoded; charset=UTF-8', data, callback, error);
+
+        handleNet(url, "GET", 'html',data,  function (d) {
             var dialogEdit = layer.open({
                 type: 1,
                 title: title,
